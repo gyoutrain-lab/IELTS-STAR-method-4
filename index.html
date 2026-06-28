@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Global Consultant: Professional Simulation</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 20px; }
+        .app-container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .input-group { margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 5px solid #2c3e50; }
+        .prologue { background: #e1e8ed; padding: 15px; border-radius: 8px; font-style: italic; margin-bottom: 20px; }
+        textarea { width: 100%; height: 50px; }
+        .controls { display: flex; gap: 10px; margin-top: 20px; }
+        button { padding: 10px 20px; cursor: pointer; background: #2c3e50; color: white; border: none; }
+        #preview { margin-top: 20px; padding: 15px; border: 1px solid #ddd; display: none; }
+        .scene { color: #2980b9; font-weight: bold; }
+        .challenge { color: #c0392b; font-weight: bold; }
+        .flow { color: #8e44ad; font-weight: bold; }
+        .sowhat { color: #27ae60; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <h2 id="level-title">Level 1: Clinical Sponsorship</h2>
+    <div class="prologue" id="prologue-text">
+        Prologue: "The ____________ of ____________ is not merely a task, but a ____________ approach to ____________."
+        <textarea id="prologue" placeholder="Fill in the blank to frame your response..."></textarea>
+    </div>
+
+    <div class="input-group">
+        <label>1. Scene (Situation):</label>
+        <textarea id="sit" placeholder="Describe the professional setting..."></textarea>
+    </div>
+    <div class="input-group">
+        <label>2. Challenge (Task):</label>
+        <textarea id="task" placeholder="Define the core professional obstacle..."></textarea>
+    </div>
+    <div class="input-group">
+        <label>3. Strategy (Action - Past Continuous):</label>
+        <textarea id="act" placeholder="While I was working..."></textarea>
+    </div>
+    <div class="input-group">
+        <label>4. Impact (So What?):</label>
+        <textarea id="res" placeholder="Ultimately, this demonstrates..."></textarea>
+    </div>
+
+    <div class="controls">
+        <button onclick="preview()">Preview & Color-Code</button>
+        <button onclick="nextLevel()">Next Competency</button>
+        <button onclick="speak()">Speak</button>
+    </div>
+
+    <div id="preview"></div>
+</div>
+
+<script>
+    const levels = [
+        { title: "Level 1: Clinical Sponsorship", prologue: "The essence of sponsorship is not merely a task, but a strategic approach to clinical integration." },
+        { title: "Level 2: NPSG Compliance", prologue: "The implementation of NPSG standards is not merely a requirement, but a fundamental pillar of patient safety." },
+        { title: "Level 3: Global Labor Transfer", prologue: "The facilitation of global labor transfer is not merely a necessity, but a vital conduit for professional development." }
+    ];
+    let current = 0;
+
+    function nextLevel() {
+        current = (current + 1) % levels.length;
+        document.getElementById('level-title').innerText = levels[current].title;
+        document.getElementById('prologue-text').innerHTML = 'Prologue: "' + levels[current].prologue + '"<textarea id="prologue"></textarea>';
+        document.querySelectorAll('textarea').forEach(t => t.value = '');
+        document.getElementById('preview').style.display = 'none';
+    }
+
+    function preview() {
+        const p = document.getElementById('prologue').value;
+        const s = document.getElementById('sit').value;
+        const t = document.getElementById('task').value;
+        const a = document.getElementById('act').value;
+        const r = document.getElementById('res').value;
+        document.getElementById('preview').style.display = 'block';
+        document.getElementById('preview').innerHTML = 
+            `<p><strong>Prologue:</strong> ${p}</p>` +
+            `<p><span class="scene">Scene:</span> ${s}</p>` +
+            `<p><span class="challenge">Challenge:</span> ${t}</p>` +
+            `<p><span class="flow">Action:</span> ${a}</p>` +
+            `<p><span class="sowhat">Impact:</span> ${r}</p>`;
+    }
+
+    function speak() {
+        window.speechSynthesis.speak(new SpeechSynthesisUtterance(document.getElementById('preview').innerText));
+    }
+</script>
+</body>
+</html>
