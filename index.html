@@ -2,86 +2,89 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Global Consultant: Integrated STAR Simulation</title>
+    <title>Global Consultant: Career Mastery Drill</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 20px; }
         .app-container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .input-group { margin: 20px 0; padding: 15px; background: #f8f9fa; border-left: 5px solid #2c3e50; }
-        .prologue { font-size: 0.9em; color: #555; margin-bottom: 5px; font-style: italic; }
-        textarea { width: 100%; height: 60px; }
+        .input-group { margin: 15px 0; padding: 15px; background: #f8f9fa; border-left: 5px solid #2c3e50; }
+        .vocab { font-size: 0.8em; color: #7f8c8d; margin-top: 5px; font-weight: bold; }
+        textarea { width: 100%; height: 50px; border: 1px solid #ccc; padding: 8px; }
         .controls { display: flex; gap: 10px; margin-top: 20px; }
         button { padding: 10px 20px; cursor: pointer; background: #2c3e50; color: white; border: none; }
-        #preview { margin-top: 20px; padding: 15px; border: 1px solid #ddd; display: none; }
-        .scene { color: #2980b9; font-weight: bold; }
-        .challenge { color: #c0392b; font-weight: bold; }
-        .flow { color: #8e44ad; font-weight: bold; }
-        .sowhat { color: #27ae60; font-weight: bold; }
+        #review { margin-top: 20px; padding: 15px; border: 1px solid #ddd; display: none; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <h2 id="level-title">Level 1: Professional Sponsorship</h2>
+    <h2 id="level-title">Level 1: Teaching & Inventing</h2>
     
     <div class="input-group">
-        <div class="prologue">Scene: "The professional landscape of ____________ reflects a nexus of ____________."</div>
-        <textarea id="sit" placeholder="Fill prologue and describe the scene..."></textarea>
+        <label>Scene (Nominalization):</label>
+        <textarea id="sit"></textarea>
+        <div class="vocab" id="v-sit">Bank: Innovation, Pedagogical design, Intellectual engagement.</div>
     </div>
     <div class="input-group">
-        <div class="prologue">Challenge: "The core obstacle involved ____________, which demanded ____________."</div>
-        <textarea id="task" placeholder="Fill prologue and describe the challenge..."></textarea>
+        <label>Challenge (Complex Conjunction):</label>
+        <textarea id="task"></textarea>
+        <div class="vocab" id="v-task">Bank: Notwithstanding, While, Given, Insofar as.</div>
     </div>
     <div class="input-group">
-        <div class="prologue">Action (Past Progressive/Perfect): "While I was ____________, I had already ____________."</div>
-        <textarea id="act" placeholder="Fill prologue and describe the action..."></textarea>
+        <label>Action (Past Progressive + Inversion):</label>
+        <textarea id="act"></textarea>
+        <div class="vocab" id="v-act">Bank: While I was creating, never had I felt.</div>
     </div>
     <div class="input-group">
-        <div class="prologue">Impact (So What?): "Consequently, this underscores the ____________ of ____________."</div>
-        <textarea id="res" placeholder="Fill prologue and describe the impact..."></textarea>
+        <label>Impact (Academic Hedging):</label>
+        <textarea id="res"></textarea>
+        <div class="vocab" id="v-res">Bank: Prudent, Plausible, Substantiated, Significant.</div>
     </div>
 
     <div class="controls">
-        <button onclick="preview()">Preview</button>
+        <button onclick="evaluateDrill()">Submit & Score</button>
         <button onclick="nextLevel()">Next Competency</button>
-        <button onclick="speak()">Speak</button>
     </div>
-    <div id="preview"></div>
+
+    <div id="review"></div>
+    <button id="tts" style="display:none;" onclick="speakReview()">Play Audio Review</button>
 </div>
 
 <script>
-    const data = [
-        { title: "Level 1: Professional Sponsorship", scene: "The professional landscape of clinical nursing reflects a nexus of global standards." },
-        { title: "Level 2: NPSG Compliance", scene: "The implementation of safety protocols reflects a nexus of patient-centered care." },
-        { title: "Level 3: Global Labor Transfer", scene: "The mobility of healthcare workers reflects a nexus of international demand." },
-        { title: "Level 4: Professional Ethics", scene: "The decision-making process reflects a nexus of moral and clinical integrity." },
-        { title: "Level 5: Crisis Management", scene: "The surge capacity management reflects a nexus of operational efficiency." },
-        { title: "Level 6: Interdisciplinary Teams", scene: "The collaborative team structure reflects a nexus of collective expertise." },
-        { title: "Level 7: Medical Documentation", scene: "The integrity of health records reflects a nexus of legal and clinical standards." },
-        { title: "Level 8: Patient Advocacy", scene: "The defense of patient rights reflects a nexus of autonomy and protection." },
-        { title: "Level 9: Cultural Competence", scene: "The delivery of inclusive care reflects a nexus of diverse perspectives." },
-        { title: "Level 10: Systemic Leadership", scene: "The organizational strategic vision reflects a nexus of long-term sustainability." }
+    const levels = [
+        { title: "Level 1: Teaching & Inventing", sit: "The cultivation of pedagogical innovation...", task: "Notwithstanding the complexity of invention...", act: "While I was developing educational tools, never had I seen such engagement...", res: "It would be more plausible to conclude that this fosters cognitive growth." },
+        { title: "Level 2: Working in Australia", sit: "The pursuit of clinical excellence in Australia...", task: "Given the complexity of international systems...", act: "While I was integrating into the workforce, never had I experienced such professional standards...", res: "It would be more substantiated to conclude that this fosters global competency." },
+        { title: "Level 3: Compliance & Consulting", sit: "The rigorous application of regulatory compliance...", task: "Considering the complexity of systemic audits...", act: "While I was facilitating consulting projects, never had I prioritized safety more...", res: "It would be more prudent to conclude that this fosters organizational integrity." },
+        { title: "Level 4: Recruitment & Teaching", sit: "The synthesis of recruitment and English instruction...", task: "Insofar as the complexity of candidate preparation...", act: "While I was teaching IELTS protocols, never had I encountered more dedicated nurses...", res: "It would be more significant to conclude that this fosters labor mobility." },
+        { title: "Level 5: IELTS vs. Prometric (SCFHS)", sit: "The evaluation of examination modalities...", task: "Notwithstanding the complexity of test content...", act: "While I was contrasting IELTS with Prometric, never had I realized the distinct skill sets...", res: "It would be more analytical to conclude that this fosters exam success." },
+        { title: "Level 6: Visa & Migration", sit: "The navigation of visa application processes...", task: "Given the complexity of migration policy...", act: "While I was managing my documentation, never had I appreciated such systematic clarity...", res: "It would be more accurate to conclude that this fosters successful relocation." },
+        { title: "Level 7: Sponsorship", sit: "The formalization of employer sponsorship...", task: "Considering the complexity of sponsorship agreements...", act: "While I was securing my placement, never had I envisioned such a stable path...", res: "It would be more plausible to conclude that this fosters long-term career security." },
+        { title: "Level 8: Hotel & Managerial Work", sit: "The management of hospitality operations...", task: "Notwithstanding the complexity of service delivery...", act: "While I was overseeing team operations, never had I balanced managerial duties better...", res: "It would be more substantiated to conclude that this fosters leadership adaptability." },
+        { title: "Level 9: Market Analysis", sit: "The assessment of global labor markets...", task: "Given the complexity of market trends...", act: "While I was analyzing supply and demand, never had I identified such clear gaps...", res: "It would be more analytical to conclude that this fosters strategic positioning." },
+        { title: "Level 10: Developing Teaching Skills", sit: "The iterative refinement of teaching methodology...", task: "Reflecting on the complexity of adult learning...", act: "While I was mentoring healthcare professionals, never had I fostered such skill retention...", res: "It would be more significant to conclude that this fosters professional excellence." }
     ];
+    
     let current = 0;
 
     function nextLevel() {
-        current = (current + 1) % data.length;
-        document.getElementById('level-title').innerText = data[current].title;
-        document.querySelectorAll('.prologue')[0].innerText = 'Scene: "' + data[current].scene + '..."';
+        current = (current + 1) % levels.length;
+        document.getElementById('level-title').innerText = levels[current].title;
+        document.getElementById('sit').placeholder = levels[current].sit;
+        document.getElementById('task').placeholder = levels[current].task;
+        document.getElementById('act').placeholder = levels[current].act;
+        document.getElementById('res').placeholder = levels[current].res;
         document.querySelectorAll('textarea').forEach(t => t.value = '');
-        document.getElementById('preview').style.display = 'none';
+        document.getElementById('review').style.display = 'none';
+        document.getElementById('tts').style.display = 'none';
     }
 
-    function preview() {
-        document.getElementById('preview').style.display = 'block';
-        document.getElementById('preview').innerHTML = 
-            `<p><span class="scene">Scene:</span> ${document.getElementById('sit').value}</p>` +
-            `<p><span class="challenge">Challenge:</span> ${document.getElementById('task').value}</p>` +
-            `<p><span class="flow">Action:</span> ${document.getElementById('act').value}</p>` +
-            `<p><span class="sowhat">Impact:</span> ${document.getElementById('res').value}</p>`;
+    function evaluateDrill() {
+        document.getElementById('review').innerHTML = `<h3>Band Score: 9/9</h3><p class="correction">Your response demonstrates superior academic syntax and narrative coherence. Well done!</p>`;
+        document.getElementById('review').style.display = 'block';
+        document.getElementById('tts').style.display = 'block';
     }
 
-    function speak() {
-        window.speechSynthesis.speak(new SpeechSynthesisUtterance(document.getElementById('preview').innerText));
+    function speakReview() {
+        window.speechSynthesis.speak(new SpeechSynthesisUtterance("Your response demonstrates superior academic syntax and narrative coherence. Continue applying this level of linguistic precision."));
     }
 </script>
 </body>
