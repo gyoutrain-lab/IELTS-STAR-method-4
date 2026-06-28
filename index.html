@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Global Consultant: Professional Simulation</title>
+    <title>Global Consultant: Integrated STAR Simulation</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 20px; }
         .app-container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .input-group { margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 5px solid #2c3e50; }
-        .prologue { background: #e1e8ed; padding: 15px; border-radius: 8px; font-style: italic; margin-bottom: 20px; }
-        textarea { width: 100%; height: 50px; }
+        .input-group { margin: 20px 0; padding: 15px; background: #f8f9fa; border-left: 5px solid #2c3e50; }
+        .prologue { font-size: 0.9em; color: #555; margin-bottom: 5px; font-style: italic; }
+        textarea { width: 100%; height: 60px; }
         .controls { display: flex; gap: 10px; margin-top: 20px; }
         button { padding: 10px 20px; cursor: pointer; background: #2c3e50; color: white; border: none; }
         #preview { margin-top: 20px; padding: 15px; border: 1px solid #ddd; display: none; }
@@ -21,67 +21,63 @@
 <body>
 
 <div class="app-container">
-    <h2 id="level-title">Level 1: Clinical Sponsorship</h2>
-    <div class="prologue" id="prologue-text">
-        Prologue: "The ____________ of ____________ is not merely a task, but a ____________ approach to ____________."
-        <textarea id="prologue" placeholder="Fill in the blank to frame your response..."></textarea>
-    </div>
-
+    <h2 id="level-title">Level 1: Professional Sponsorship</h2>
+    
     <div class="input-group">
-        <label>1. Scene (Situation):</label>
-        <textarea id="sit" placeholder="Describe the professional setting..."></textarea>
+        <div class="prologue">Scene: "The professional landscape of ____________ reflects a nexus of ____________."</div>
+        <textarea id="sit" placeholder="Fill prologue and describe the scene..."></textarea>
     </div>
     <div class="input-group">
-        <label>2. Challenge (Task):</label>
-        <textarea id="task" placeholder="Define the core professional obstacle..."></textarea>
+        <div class="prologue">Challenge: "The core obstacle involved ____________, which demanded ____________."</div>
+        <textarea id="task" placeholder="Fill prologue and describe the challenge..."></textarea>
     </div>
     <div class="input-group">
-        <label>3. Strategy (Action - Past Continuous):</label>
-        <textarea id="act" placeholder="While I was working..."></textarea>
+        <div class="prologue">Action (Past Progressive/Perfect): "While I was ____________, I had already ____________."</div>
+        <textarea id="act" placeholder="Fill prologue and describe the action..."></textarea>
     </div>
     <div class="input-group">
-        <label>4. Impact (So What?):</label>
-        <textarea id="res" placeholder="Ultimately, this demonstrates..."></textarea>
+        <div class="prologue">Impact (So What?): "Consequently, this underscores the ____________ of ____________."</div>
+        <textarea id="res" placeholder="Fill prologue and describe the impact..."></textarea>
     </div>
 
     <div class="controls">
-        <button onclick="preview()">Preview & Color-Code</button>
+        <button onclick="preview()">Preview</button>
         <button onclick="nextLevel()">Next Competency</button>
         <button onclick="speak()">Speak</button>
     </div>
-
     <div id="preview"></div>
 </div>
 
 <script>
-    const levels = [
-        { title: "Level 1: Clinical Sponsorship", prologue: "The essence of sponsorship is not merely a task, but a strategic approach to clinical integration." },
-        { title: "Level 2: NPSG Compliance", prologue: "The implementation of NPSG standards is not merely a requirement, but a fundamental pillar of patient safety." },
-        { title: "Level 3: Global Labor Transfer", prologue: "The facilitation of global labor transfer is not merely a necessity, but a vital conduit for professional development." }
+    const data = [
+        { title: "Level 1: Professional Sponsorship", scene: "The professional landscape of clinical nursing reflects a nexus of global standards." },
+        { title: "Level 2: NPSG Compliance", scene: "The implementation of safety protocols reflects a nexus of patient-centered care." },
+        { title: "Level 3: Global Labor Transfer", scene: "The mobility of healthcare workers reflects a nexus of international demand." },
+        { title: "Level 4: Professional Ethics", scene: "The decision-making process reflects a nexus of moral and clinical integrity." },
+        { title: "Level 5: Crisis Management", scene: "The surge capacity management reflects a nexus of operational efficiency." },
+        { title: "Level 6: Interdisciplinary Teams", scene: "The collaborative team structure reflects a nexus of collective expertise." },
+        { title: "Level 7: Medical Documentation", scene: "The integrity of health records reflects a nexus of legal and clinical standards." },
+        { title: "Level 8: Patient Advocacy", scene: "The defense of patient rights reflects a nexus of autonomy and protection." },
+        { title: "Level 9: Cultural Competence", scene: "The delivery of inclusive care reflects a nexus of diverse perspectives." },
+        { title: "Level 10: Systemic Leadership", scene: "The organizational strategic vision reflects a nexus of long-term sustainability." }
     ];
     let current = 0;
 
     function nextLevel() {
-        current = (current + 1) % levels.length;
-        document.getElementById('level-title').innerText = levels[current].title;
-        document.getElementById('prologue-text').innerHTML = 'Prologue: "' + levels[current].prologue + '"<textarea id="prologue"></textarea>';
+        current = (current + 1) % data.length;
+        document.getElementById('level-title').innerText = data[current].title;
+        document.querySelectorAll('.prologue')[0].innerText = 'Scene: "' + data[current].scene + '..."';
         document.querySelectorAll('textarea').forEach(t => t.value = '');
         document.getElementById('preview').style.display = 'none';
     }
 
     function preview() {
-        const p = document.getElementById('prologue').value;
-        const s = document.getElementById('sit').value;
-        const t = document.getElementById('task').value;
-        const a = document.getElementById('act').value;
-        const r = document.getElementById('res').value;
         document.getElementById('preview').style.display = 'block';
         document.getElementById('preview').innerHTML = 
-            `<p><strong>Prologue:</strong> ${p}</p>` +
-            `<p><span class="scene">Scene:</span> ${s}</p>` +
-            `<p><span class="challenge">Challenge:</span> ${t}</p>` +
-            `<p><span class="flow">Action:</span> ${a}</p>` +
-            `<p><span class="sowhat">Impact:</span> ${r}</p>`;
+            `<p><span class="scene">Scene:</span> ${document.getElementById('sit').value}</p>` +
+            `<p><span class="challenge">Challenge:</span> ${document.getElementById('task').value}</p>` +
+            `<p><span class="flow">Action:</span> ${document.getElementById('act').value}</p>` +
+            `<p><span class="sowhat">Impact:</span> ${document.getElementById('res').value}</p>`;
     }
 
     function speak() {
